@@ -1,1 +1,1 @@
-# babel
+# react-redux demo
