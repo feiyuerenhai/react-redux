@@ -92,3 +92,16 @@ var App = React.createClass({
 });
 
 ReactDOM.render(<App/>, document.getElementById('app'));
+
+//以上只是简单勾勒出了react-redux的基础使用
+//在实际应用中，组件树往往十分复杂，该怎么解决呢？
+//第一种办法是，只在树顶作连接，然后将state、dispatch、props层层传递
+//第二种办法是，为每一个需要的组件都进行一次连接
+//优先的做法是第二种
+//其实，dumb组件之上的smart组件可以看作是store在该dumb组件处的代理人
+//代理人负责衔接两者的关系，不管组件树层级多深，任一个节点组件处的dumb组件都被直接代理到了store中
+//也可以说，connected smart component是store在dumb组件处的一个镜像
+//所以，不管这些智能组件层级多深，它们与store的关系都是扁平的、平行的
+//另外，对于任意一个需要有数据交互的组件改造为智能组件其实非常简单，也就是connect一次而已
+//所以，复杂应用的组件树是这样的：
+//深度为x的某个组件n可能是被改装后的智能组件，它直接与store相连，其他没有数据交互的组件都只是dumb组件
