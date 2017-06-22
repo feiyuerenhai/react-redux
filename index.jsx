@@ -56,7 +56,7 @@ store.subscribe(function(){
 
 var Comp = React.createClass({
 	showContext(){
-		//###核心###
+		//### context核心论述 ###
 		//react组件的props属性中有一个特殊,this.props.children
 		//该组件用于获取render方法中，该组件的子节点
 		//这些子节点代表的也是多个子组件，但是，这些子组件在渲染的时候，其实会取调用当前组件的getChildContext方法
@@ -66,6 +66,7 @@ var Comp = React.createClass({
 		//这样以来，我们可以不必非要显式地将组件逐个赋给Provider下的Connected组件，
 		//而是隐式地通过context传递
 		//因此，connect advanced方法的本质也就变成：包装一个组件，定义其mapped contextTypes
+		//也正因为此，子组件才能获取看似没有关联的Provider中的store数据
 		console.log(this.context, this.context.store.getState());
 	},
 	render: function() {

@@ -67,8 +67,18 @@ define(['react', 'react-dom', 'react-redux', 'redux'], function (_react, _reactD
 
 	var Comp = _react2.default.createClass({
 		displayName: 'Comp',
-		show: function show() {
-			console.log(this.context.store);
+		showContext: function showContext() {
+			//###核心###
+			//react组件的props属性中有一个特殊,this.props.children
+			//该组件用于获取render方法中，该组件的子节点
+			//这些子节点代表的也是多个子组件，但是，这些子组件在渲染的时候，其实会取调用当前组件的getChildContext方法
+			//但前提是，一定要使用Comp.contextTypes声明，子组件能获得哪些当前组件的上下文
+			//也就是说，当前组件可以，一，通过props将数据传递给子“组件内”，二，通过context，使得捆绑在一起“组件间”共享数据
+			//Provider的本质就是利用了getChildContext，将store传递给子组件
+			//这样以来，我们可以不必非要显式地将组件逐个赋给Provider下的Connected组件，
+			//而是隐式地通过context传递
+			//因此，connect advanced方法的本质也就变成：包装一个组件，定义其mapped contextTypes
+			console.log(this.context, this.context.store.getState());
 		},
 
 		render: function render() {
@@ -83,16 +93,16 @@ define(['react', 'react-dom', 'react-redux', 'redux'], function (_react, _reactD
 				),
 				_react2.default.createElement(
 					'h5',
-					{ onClick: this.show },
+					{ onClick: this.showContext },
 					'tip: click to see the name'
 				)
 			);
 		}
 	});
 
-	// Comp.contextTypes = {
-	//   store: React.PropTypes.object
-	// };
+	Comp.contextTypes = {
+		store: _react2.default.PropTypes.object
+	};
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 		return {
